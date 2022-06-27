@@ -1,0 +1,16 @@
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+// 关闭浏览器关于环境的提示
+Vue.config.productionTip = false
+
+Vue.use(ElementUI);
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
