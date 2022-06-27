@@ -1,6 +1,12 @@
 <template>
 <div>
-  <el-form :rules="rules" ref="loginForm" :model="loginForm" class="loginContainer">
+  <el-form :rules="rules" ref="loginForm" :model="loginForm" class="loginContainer"
+<!--           添加loading-->
+           v-loading="loading"
+           element-loading-text="正在加载中"
+           element-loading-spinner="el-icon-loading"
+           element-loading-background="rgba(0, 0, 0, 0.8)"
+
     <h3 class="loginTitle">登录系统</h3>
     <el-form-item prop="username">
       <el-input type="text" auto-complete="false" v-model="loginForm.username" placeholder="请输入用户名"></el-input>
@@ -12,7 +18,7 @@
 
     <el-form-item style="clear: both" prop="code">
       <el-input type="text"  auto-complete="false" v-model="loginForm.code" placeholder="点击图片更换验证码" style="width: 250px;margin-right: 5px;float: left"></el-input>
-      <img :src="captchaUrl" alt="">
+      <img :src="captchaUrl" alt="" @click="updateCaptcha">
     </el-form-item>
 
     <el-checkbox v-model="checked" class="loginRemember">记住我</el-checkbox>
@@ -23,12 +29,15 @@
 </template>
 
 <script>
+// import {postRequest} from "@/utils/api";
+
 export default {
   name: "Login",
   data(){
     return {
-      captchaUrl:'',
+      captchaUrl:'/captcha?time='+new Date(),
       checked:true,
+      loading:true,
       loginForm:{
         username:'admin',
         password:'123',
@@ -49,17 +58,39 @@ export default {
     }
   },
   methods:{
+    // 更换验证码
+    updateCaptcha(){
+      this.captchaUrl = '/captcha?time='+new Date()
+    },
     loginClick(){
       // alert('111')
-      this.$refs.loginForm.validate((valid) => {
+
+      this.$router.replace('/home')
+
+     /* this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // alert('submit!');
+          // this.loading = true
+           // this.postRequest
+
+          postRequest('/login',this.loginForm).then(resp=>{
+            // alert(JSON.stringify(resp))
+            if (resp){
+            //  this.loading = false
+              const tokenStr = resp.obj.tokenHead + resp.obj.token;
+              // 存储token
+              window.sessionStorage.setItem('tokenStr', tokenStr)
+              // 不可回退
+              this.$router.replace('/home')
+            }
+          })
         } else {
+         //  this.loading = false
           // console.log('error submit!!');
           this.$message.error('请输入所有字段')
           return false;
         }
-      });
+      });*/
     }
   }
 }
