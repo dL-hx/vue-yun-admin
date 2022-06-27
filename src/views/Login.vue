@@ -1,11 +1,10 @@
 <template>
 <div>
   <el-form :rules="rules" ref="loginForm" :model="loginForm" class="loginContainer"
-<!--           添加loading-->
            v-loading="loading"
            element-loading-text="正在加载中"
            element-loading-spinner="el-icon-loading"
-           element-loading-background="rgba(0, 0, 0, 0.8)"
+           element-loading-background="rgba(0, 0, 0, 0.8)">
 
     <h3 class="loginTitle">登录系统</h3>
     <el-form-item prop="username">
@@ -37,7 +36,7 @@ export default {
     return {
       captchaUrl:'/captcha?time='+new Date(),
       checked:true,
-      loading:true,
+      loading:false,
       loginForm:{
         username:'admin',
         password:'123',
