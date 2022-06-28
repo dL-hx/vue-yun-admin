@@ -5,7 +5,8 @@
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px">
         <el-menu router>
-          <el-submenu index="1" v-for="(item, index) in this.$router.options.routes"
+<!--          <el-submenu index="1" v-for="(item, index) in this.$router.options.routes"-->
+          <el-submenu index="1" v-for="(item, index) in routes"
                       :key="index"
                        v-show="!item.hidden"
           >
@@ -30,6 +31,11 @@
 <script>
 export default {
   name: "Home",
+  computed:{
+    routes(){
+      return this.$store.state.routes // 通过计算属性, 从vuex 中, 获取路由参数
+    }
+  },
   methods:{
     // menuClick(index){
     //   this.$router.push(index)

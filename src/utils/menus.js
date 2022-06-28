@@ -1,11 +1,9 @@
 // 定义加载菜单的menu.js 文件
 import {getRequest} from "./api";
-import router from "@/router";
-
 
 
 export const initMenu = (router, store)=>{
-    if (router.state.routes.length>0){
+    if (store.state.routes.length > 0) {
         return;
     }
 
@@ -49,12 +47,24 @@ export function formatRoutes(routes) {
             iconCls:iconCls,
             children:children,
             component(resolve){
-                // 懒加载组件
-                resolve('../views/' + component + '.vue', resolve)
+                // 判断组件以什么开头，到对应的目录去找
+                if (component.startsWith('Home')) {
+                    // 懒加载组件
+                    require(['@/views/' + component + '.vue'], resolve);
+                }else if (component.startsWith('Emp')) {
+                    require(['@/views/emp/' + component + '.vue'], resolve);
+                }else if (component.startsWith('Per')) {
+                    require(['@/views/per/' + component + '.vue'], resolve);
+                }else if (component.startsWith('Sal')) {
+                    require(['@/views/sal/' + component + '.vue'], resolve);
+                }else if (component.startsWith('Sta')) {
+                    require(['@/views/sta/' + component + '.vue'], resolve);
+                }else if (component.startsWith('Sys')) {
+                    require(['@/views/sys/' + component + '.vue'], resolve);
+                }
             },
         }
         fmtRoutes.push(fmRouter)
-
     })
     return fmtRoutes;
 }

@@ -64,13 +64,13 @@ export default {
     loginClick(){
       // alert('111')
 
+      window.sessionStorage.setItem('tokenStr', Math.random())
       this.$router.replace('/home')
 
      /* this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          // alert('submit!');
           // this.loading = true
-           // this.postRequest
+          // this.postRequest
 
           postRequest('/login',this.loginForm).then(resp=>{
             // alert(JSON.stringify(resp))
